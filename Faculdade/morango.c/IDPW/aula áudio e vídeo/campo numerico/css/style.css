@@ -1,0 +1,10 @@
+#numero{
+
+    width: 100px;
+}
+
+input:focus{
+
+    border-color : #ff99bb;
+
+}
