@@ -29,5 +29,8 @@ public enum TipoVeiculo {
         return vagasOcupadas;
     }
 
-
+    @Override
+    public String toString() {
+        return this.nomeLegivel;
+    }
 }
