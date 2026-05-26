@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Registro implements Serializable {
+public class Registro implements Serializable, Comparable<Registro> {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,6 +50,10 @@ public class Registro implements Serializable {
         return Math.max(horas, 1.0);
     }
 
+    @Override
+    public int compareTo(Registro outro) {
+        return this.dataEntrada.compareTo(outro.dataEntrada);
+    }
 
     // --- Getters ---
 
