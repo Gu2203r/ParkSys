@@ -33,7 +33,35 @@ public class GerenciadorArquivo {
         } finally {
 
             if (oos != null) {
-                try { oos.close(); } catch (IOException e) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    System.err.println("[Arquivo] Erro ao fechar stream: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    public static DadosParkSys desserializar(String path) {
+        ObjectInputStream ois = null;
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            ois = new ObjectInputStream(fis);
+            return (DadosParkSys) ois.readObject();
+
+        } catch (FileNotFoundException e) { // tratamento d FileNotFoundException
+            System.out.println("[Arquivo] Nenhum dado salvo encontrado. Iniciando do zero.");
+            return new DadosParkSys(new HashMap<>(), new ArrayList<>(), new LinkedList<>());
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("[Arquivo] Erro ao desserializar: " + e.getMessage());
+            return new DadosParkSys(new HashMap<>(), new ArrayList<>(), new LinkedList<>());
+
+        } finally {
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
                     System.err.println("[Arquivo] Erro ao fechar stream: " + e.getMessage());
                 }
             }
