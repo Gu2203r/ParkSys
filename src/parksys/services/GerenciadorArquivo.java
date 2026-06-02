@@ -67,4 +67,74 @@ public class GerenciadorArquivo {
             }
         }
     }
+
+    // Exporta o relatorio para um txt usando o FileWriter
+    public static void exportarRelatorioTxt(List<Registro> registros, Map<String, Vaga> vagas, String path) {
+
+        BufferedWriter writer = null;
+
+        try {
+            FileWriter fw = new FileWriter(path);
+            writer = new BufferedWriter(fw);
+
+            // Cabeçalho
+            escreverLinha(writer, "================================================");
+            escreverLinha(writer, "          PARKSYS - RELATÓRIO GERAL             ");
+            escreverLinha(writer, "================================================");
+            escreverLinha(writer, "Gerado em: " + LocalDateTime.now().format(FORMATTER));
+            escreverLinha(writer, "");
+
+            // Status das vagas
+            long livres    = contarStatus(vagas, StatusVaga.LIVRE);
+            long ocupadas  = contarStatus(vagas, StatusVaga.OCUPADA);
+            long reservadas = contarStatus(vagas, StatusVaga.RESERVADA);
+
+            escreverLinha(writer, "--- VAGAS ---");
+            escreverLinha(writer, "Livres: " + livres);
+            escreverLinha(writer, "Ocupadas: " + ocupadas);
+            escreverLinha(writer, "Reservadas: " + reservadas);
+            escreverLinha(writer, "");
+
+            // Financeiro
+            double totalReceita = registros.stream()
+                    .filter(r -> !r.isAtivo())
+                    .mapToDouble(Registro::getValorPago)
+                    .sum();
+
+            escreverLinha(writer, "--- FINANCEIRO ---");
+            escreverLinha(writer, String.format("Receita total: R$ %.2f", totalReceita));
+            escreverLinha(writer, "");
+
+            // Registros
+            escreverLinha(writer, "--- REGISTROS ---");
+            if (registros.isEmpty()) {
+                escreverLinha(writer, "(nenhum registro no período)");
+            } else {
+                for (Registro r : registros) {
+                    escreverLinha(writer, r.toString());
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("[Arquivo] Erro ao exportar relatório: " + e.getMessage());
+        } finally {
+            if (writer != null) {
+                try { writer.close(); } catch (IOException e) {
+                    System.err.println("[Arquivo] Erro ao fechar writer: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    // usado para escrever no txt
+    private static void escreverLinha(BufferedWriter writer, String texto) throws IOException {
+        writer.write(texto);
+        writer.newLine();
+    }
+
+    private static long contarStatus(Map<String, Vaga> vagas, StatusVaga status) {
+        return vagas.values().stream()
+                .filter(v -> v.getStatus() == status)
+                .count();
+    }
 }
