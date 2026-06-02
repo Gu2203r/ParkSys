@@ -18,6 +18,7 @@ public class GerenciadorArquivo {
     public static void serializar(Map<String, Vaga> vagas, List<Registro> registros, List<Mensalista> mensalistas, String path) {
 
         ObjectOutputStream oos = null;
+        boolean sucesso = false;
 
         // Serializa o arquivo para .ser
         try {
@@ -27,6 +28,7 @@ public class GerenciadorArquivo {
             oos = new ObjectOutputStream(fos);
 
             oos.writeObject(dadosParkSys);
+            sucesso = true;
 
         } catch (IOException e) {
             System.err.println("[Arquivo] Erro ao serializar: " + e.getMessage());
@@ -39,14 +41,18 @@ public class GerenciadorArquivo {
                     System.err.println("[Arquivo] Erro ao fechar stream: " + e.getMessage());
                 }
             }
+            System.out.println("[Arquivo] Serialização " + (sucesso ? "concluída → " + path : "falhou"));
         }
     }
 
     public static DadosParkSys desserializar(String path) {
         ObjectInputStream ois = null;
+        boolean sucesso = false;
+
         try {
             FileInputStream fis = new FileInputStream(path);
             ois = new ObjectInputStream(fis);
+            sucesso = true;
             return (DadosParkSys) ois.readObject();
 
         } catch (FileNotFoundException e) { // tratamento d FileNotFoundException
@@ -65,6 +71,7 @@ public class GerenciadorArquivo {
                     System.err.println("[Arquivo] Erro ao fechar stream: " + e.getMessage());
                 }
             }
+            System.out.println("[Arquivo] Desserialização " + (sucesso ? "concluída → " + path : "falhou"));
         }
     }
 
@@ -72,6 +79,7 @@ public class GerenciadorArquivo {
     public static void exportarRelatorioTxt(List<Registro> registros, Map<String, Vaga> vagas, String path) {
 
         BufferedWriter writer = null;
+        boolean sucesso = false;
 
         try {
             FileWriter fw = new FileWriter(path);
@@ -114,6 +122,7 @@ public class GerenciadorArquivo {
                     escreverLinha(writer, r.toString());
                 }
             }
+            sucesso = true;
 
         } catch (IOException e) {
             System.err.println("[Arquivo] Erro ao exportar relatório: " + e.getMessage());
@@ -123,6 +132,7 @@ public class GerenciadorArquivo {
                     System.err.println("[Arquivo] Erro ao fechar writer: " + e.getMessage());
                 }
             }
+            System.out.println("[Arquivo] Exportação para txt " + (sucesso ? "concluída → " + path : "falhou"));
         }
     }
 
