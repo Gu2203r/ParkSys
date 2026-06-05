@@ -158,4 +158,9 @@ public class GerenciadorEstacionamento {
         }
     }
 
+    public TreeSet<Registro> getRegistrosOrdenados() {
+        return new TreeSet<>(registros);
+    }
+    
+
 }
