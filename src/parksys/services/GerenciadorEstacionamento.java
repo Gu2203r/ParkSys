@@ -16,9 +16,6 @@ import java.util.*;
 
 public class GerenciadorEstacionamento {
 
-    // =========================================================
-    // P01 — Singleton
-    // =========================================================
     private static GerenciadorEstacionamento instancia;
 
     private GerenciadorEstacionamento() {
@@ -32,10 +29,8 @@ public class GerenciadorEstacionamento {
         return instancia;
     }
 
-    // =========================================================
-    // C01 — HashMap<String, Vaga>
-    // Acesso O(1) por ID de vaga (ex: "A01", "B07").
-    // =========================================================
     private HashMap<String, Vaga> vagas = new HashMap<>();
+
+    private ArrayList<Registro> registros = new ArrayList<>();
 
 }
