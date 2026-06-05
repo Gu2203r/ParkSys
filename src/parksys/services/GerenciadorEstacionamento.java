@@ -169,4 +169,17 @@ public class GerenciadorEstacionamento {
         return lista;
     }
 
+    public Map<StatusVaga, Long> contarVagasPorStatus() {
+        Map<StatusVaga, Long> contagem = new EnumMap<>(StatusVaga.class);
+        for (StatusVaga s : StatusVaga.values()) {
+            contagem.put(s, 0L);
+        }
+        // C06 — iteração via entrySet() do HashMap
+        for (Map.Entry<String, Vaga> entry : vagas.entrySet()) {
+            StatusVaga status = entry.getValue().getStatus();
+            contagem.put(status, contagem.get(status) + 1);
+        }
+        return contagem;
+    }
+
 }
