@@ -33,4 +33,6 @@ public class GerenciadorEstacionamento {
 
     private ArrayList<Registro> registros = new ArrayList<>();
 
+    private LinkedList<Mensalista> mensalistas = new LinkedList<>();
+
 }
