@@ -161,6 +161,12 @@ public class GerenciadorEstacionamento {
     public TreeSet<Registro> getRegistrosOrdenados() {
         return new TreeSet<>(registros);
     }
-    
+
+    public List<Registro> getRegistrosOrdenadosPorReceita() {
+        List<Registro> lista = new ArrayList<>(registros);
+        // Comparator decrescente por valor cobrado
+        lista.sort(Comparator.comparingDouble(Registro::getValorCobrado).reversed());
+        return lista;
+    }
 
 }
