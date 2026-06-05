@@ -182,4 +182,83 @@ public class GerenciadorEstacionamento {
         return contagem;
     }
 
+    public double calcularReceitaTotal() {
+        double total = 0;
+        for (Registro r : registros) {
+            if (r.getDataSaida() != null) {
+                total += r.getValorCobrado();
+            }
+        }
+        return total;
+    }
+
+    public List<Registro> getRegistrosDoDia() {
+        List<Registro> hoje = new ArrayList<>();
+        LocalDateTime inicioDoDia = LocalDateTime.now().toLocalDate().atStartOfDay();
+        for (Registro r : registros) {
+            if (!r.getDataEntrada().isBefore(inicioDoDia)) {
+                hoje.add(r);
+            }
+        }
+        return hoje;
+    }
+
+    public synchronized HashMap<String, Vaga> getVagas() {
+        return vagas;
+    }
+
+    public synchronized void setVagas(HashMap<String, Vaga> vagas) {
+        this.vagas = vagas;
+    }
+
+    public synchronized ArrayList<Registro> getRegistros() {
+        return registros;
+    }
+
+    public synchronized void setRegistros(ArrayList<Registro> registros) {
+        this.registros = registros;
+    }
+
+    public synchronized LinkedList<Mensalista> getMensalistas() {
+        return mensalistas;
+    }
+
+    public synchronized void setMensalistas(LinkedList<Mensalista> mensalistas) {
+        this.mensalistas = mensalistas;
+    }
+
+    public synchronized Vaga getVaga(String id) {
+        return vagas.get(id);
+    }
+
+    public synchronized boolean isVagaDisponivel(String id) {
+        Vaga v = vagas.get(id);
+        return v != null && v.isDisponivel();
+    }
+
+    public synchronized List<Vaga> getVagasLivres() {
+        List<Vaga> livres = new ArrayList<>();
+        for (Vaga v : vagas.values()) {
+            if (v.getStatus() == StatusVaga.LIVRE) {
+                livres.add(v);
+            }
+        }
+        return livres;
+    }
+
+
+    public void addObserver(EstacionamentoObserver obs) {
+        observadores.add(obs);
+    }
+
+    public void removeObserver(EstacionamentoObserver obs) {
+        observadores.remove(obs);
+    }
+
+    private void notificarObservadores(String idVaga, StatusVaga novoStatus) {
+        for (EstacionamentoObserver obs : observadores) {
+            obs.onVagaAlterada(idVaga, novoStatus);
+        }
+    }
+
 }
