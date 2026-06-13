@@ -19,18 +19,18 @@ public class Principal {
         // desserializa automaticamente ao iniciar
         DadosParkSys dados = GerenciadorArquivo.desserializar(ARQUIVO_DADOS);
 
+        if (!dados.getVagas().isEmpty()) {
+            gerenciador.setVagas(new HashMap<>(dados.getVagas()));
+        }
+        gerenciador.setRegistros(new ArrayList<>(dados.getRegistros()));
+        gerenciador.setMensalistas(new LinkedList<>(dados.getMensalistas()));
+
         System.out.println("\n--- threadOrigem após desserialização ---");
         for (Registro r : gerenciador.getRegistros()) {
             System.out.println("  " + r.getVeiculo().getPlaca()
                     + " → threadOrigem: " + r.getThreadOrigem()); // sempre null aqui
         }
         System.out.println("-----------------------------------------\n");
-
-        if (!dados.getVagas().isEmpty()) {
-            gerenciador.setVagas(new HashMap<>(dados.getVagas()));
-        }
-        gerenciador.setRegistros(new ArrayList<>(dados.getRegistros()));
-        gerenciador.setMensalistas(new LinkedList<>(dados.getMensalistas()));
 
         // setDaemon(true) deve ser chamado antes de start(), caso contrário lança IllegalThreadStateException
         Thread monitor = new Thread(new MonitorRunnable(gerenciador), "Monitor");
