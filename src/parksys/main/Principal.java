@@ -19,6 +19,13 @@ public class Principal {
         // desserializa automaticamente ao iniciar
         DadosParkSys dados = GerenciadorArquivo.desserializar(ARQUIVO_DADOS);
 
+        System.out.println("\n--- threadOrigem após desserialização ---");
+        for (Registro r : gerenciador.getRegistros()) {
+            System.out.println("  " + r.getVeiculo().getPlaca()
+                    + " → threadOrigem: " + r.getThreadOrigem()); // sempre null aqui
+        }
+        System.out.println("-----------------------------------------\n");
+
         if (!dados.getVagas().isEmpty()) {
             gerenciador.setVagas(new HashMap<>(dados.getVagas()));
         }
