@@ -108,13 +108,13 @@ public class GerenciadorEstacionamento {
         }
 
         LocalDateTime saida = LocalDateTime.now();
-        registroAberto.setDataSaida(saida);
 
         // T03 — tarifa calculada via TipoVeiculo.getTarifaHora(), sem valor fixo
         long minutos = ChronoUnit.MINUTES.between(registroAberto.getDataEntrada(), saida);
         double horas = Math.max(minutos / 60.0, 1.0); // mínimo 1 hora
         double tarifa = registroAberto.getVeiculo().getTipo().getTarifaHora() * horas;
-        registroAberto.setValorCobrado(tarifa);
+
+        registroAberto.registrarSaida(saida, tarifa);
 
         // Libera as vagas ocupadas
         for (String id : registroAberto.getIdsVagas()) {
@@ -165,7 +165,7 @@ public class GerenciadorEstacionamento {
     public List<Registro> getRegistrosOrdenadosPorReceita() {
         List<Registro> lista = new ArrayList<>(registros);
         // Comparator decrescente por valor cobrado
-        lista.sort(Comparator.comparingDouble(Registro::getValorCobrado).reversed());
+        lista.sort(Comparator.comparingDouble(Registro::getValorPago).reversed());
         return lista;
     }
 
@@ -186,7 +186,7 @@ public class GerenciadorEstacionamento {
         double total = 0;
         for (Registro r : registros) {
             if (r.getDataSaida() != null) {
-                total += r.getValorCobrado();
+                total += r.getValorPago();
             }
         }
         return total;
