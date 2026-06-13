@@ -60,5 +60,22 @@ public class Principal {
 
         // Aguarda o monitor encerrar de forma limpa antes do relatório
         monitor.join();
+
+        // Relatório final no console (M05)
+        System.out.println("\n========== RELATÓRIO FINAL ==========");
+        System.out.printf("Receita total: R$ %.2f%n",
+                gerenciador.calcularReceitaTotal());
+        System.out.println("Registros (ordem cronológica):");
+        for (Registro r : gerenciador.getRegistrosOrdenados()) {
+            System.out.println("  " + r);
+        }
+
+
+        // serializa automaticamente ao encerrar
+        GerenciadorArquivo.serializar(gerenciador.getVagas(), gerenciador.getRegistros(), gerenciador.getMensalistas(), ARQUIVO_DADOS);
+
+        GerenciadorArquivo.exportarRelatorioTxt(gerenciador.getRegistros(), gerenciador.getVagas(), "relatorio.txt");
+
+        System.out.println("=====================================");
     }
 }
