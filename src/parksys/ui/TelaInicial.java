@@ -43,6 +43,10 @@ public class TelaInicial extends JFrame {
 
         add(painelBotoes, BorderLayout.WEST);
 
+        btnEntrada.addActionListener(e -> {
+            new TelaRegistroEntrada(TelaInicial.this).setVisible(true);
+        });
+
         add(new JLabel("Painel do Sistema de Estacionamento", SwingConstants.CENTER), BorderLayout.CENTER);
 
         // Requisito P06: Ao fechar a aplicação, remover o observador antes de encerrar
