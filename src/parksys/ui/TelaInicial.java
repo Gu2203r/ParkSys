@@ -18,7 +18,7 @@ public class TelaInicial extends JFrame {
 
     public TelaInicial() {
         setTitle("ParkSys - Sistema de Gestão de Estacionamento");
-        setSize(380, 220);
+        setSize(380, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -45,6 +45,10 @@ public class TelaInicial extends JFrame {
 
         btnEntrada.addActionListener(e -> {
             new TelaRegistroEntrada(TelaInicial.this).setVisible(true);
+        });
+
+        btnSaida.addActionListener(e -> {
+            new TelaSaida(TelaInicial.this).setVisible(true);
         });
 
         add(new JLabel("Painel do Sistema de Estacionamento", SwingConstants.CENTER), BorderLayout.CENTER);
