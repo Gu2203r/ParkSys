@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+// P05: Arquitetura MVC respeitada. UI nao acessa Collections diretamente.
 public class GerenciadorEstacionamento {
 
     private static GerenciadorEstacionamento instancia;
@@ -22,6 +23,8 @@ public class GerenciadorEstacionamento {
         inicializarVagas();
     }
 
+
+    // P01: Implementacao do padrao Singleton com construtor private e getInstance()
     public static synchronized GerenciadorEstacionamento getInstance() {
         if (instancia == null) {
             instancia = new GerenciadorEstacionamento();
@@ -255,6 +258,7 @@ public class GerenciadorEstacionamento {
         observadores.remove(obs);
     }
 
+    // P03: Padrao Observer - Gerenciador mantem lista de observadores e os notifica
     private void notificarObservadores(String idVaga, StatusVaga novoStatus) {
         for (EstacionamentoObserver obs : observadores) {
             obs.onVagaAlterada(idVaga, novoStatus);

@@ -21,7 +21,18 @@ public class TelaInicial extends JFrame {
         setSize(380, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+
+        JPanel painelFundo = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // O Java vai procurar uma imagem chamada "fundo.jpg" na pasta principal do seu projeto
+                Image imagemFundo = new ImageIcon("Parking.jpg").getImage();
+                g.drawImage(imagemFundo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        setContentPane(painelFundo);
 
         painelMonitor = new PainelMonitor();
 
@@ -30,6 +41,8 @@ public class TelaInicial extends JFrame {
 
         JPanel painelBotoes = new JPanel(new GridLayout(4, 1, 5, 5));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(15, 35, 15, 35));
+
+        painelBotoes.setOpaque(false);
 
         btnEntrada = new JButton("Registrar Entrada");
         btnSaida = new JButton("Registrar Saída");
@@ -41,7 +54,31 @@ public class TelaInicial extends JFrame {
         painelBotoes.add(btnMensalista);
         painelBotoes.add(btnRelatorio);
 
-        add(painelBotoes, BorderLayout.WEST);
+        painelFundo.add(painelBotoes, BorderLayout.WEST);
+
+        Color corBotoes = new Color(90, 15, 20);
+        Font fonteBotoes = new Font("Segoe UI", Font.BOLD, 14);
+
+        btnEntrada.setBackground(corBotoes);
+        btnEntrada.setForeground(Color.WHITE);
+        btnEntrada.setFont(fonteBotoes);
+        btnEntrada.setFocusPainted(false);
+
+        btnSaida.setBackground(corBotoes);
+        btnSaida.setForeground(Color.WHITE);
+        btnSaida.setFont(fonteBotoes);
+        btnSaida.setFocusPainted(false);
+
+        btnMensalista.setBackground(corBotoes);
+        btnMensalista.setForeground(Color.WHITE);
+        btnMensalista.setFont(fonteBotoes);
+        btnMensalista.setFocusPainted(false);
+
+        btnRelatorio.setBackground(corBotoes);
+        btnRelatorio.setForeground(Color.WHITE);
+        btnRelatorio.setFont(fonteBotoes);
+        btnRelatorio.setFocusPainted(false);
+        // ========================================================
 
         btnEntrada.addActionListener(e -> {
             new TelaRegistroEntrada(TelaInicial.this).setVisible(true);
@@ -51,7 +88,6 @@ public class TelaInicial extends JFrame {
             new TelaSaida(TelaInicial.this).setVisible(true);
         });
 
-
         btnMensalista.addActionListener(e -> {
             new TelaCadastroMensalista(TelaInicial.this).setVisible(true);
         });
@@ -60,7 +96,9 @@ public class TelaInicial extends JFrame {
             new TelaRelatorio(TelaInicial.this).setVisible(true);
         });
 
-        add(new JLabel("Painel do Sistema de Estacionamento", SwingConstants.CENTER), BorderLayout.CENTER);
+        JLabel tituloCentral = new JLabel("Painel do Sistema", SwingConstants.CENTER);
+        tituloCentral.setForeground(Color.WHITE);
+        painelFundo.add(tituloCentral, BorderLayout.CENTER);
 
         // Requisito P06: Ao fechar a aplicação, remover o observador antes de encerrar
         addWindowListener(new WindowAdapter() {
