@@ -257,6 +257,7 @@ public class GerenciadorEstacionamento {
         observadores.remove(obs);
     }
 
+    // P03: Padrao Observer - Gerenciador mantem lista de observadores e os notifica
     private void notificarObservadores(String idVaga, StatusVaga novoStatus) {
         for (EstacionamentoObserver obs : observadores) {
             obs.onVagaAlterada(idVaga, novoStatus);
