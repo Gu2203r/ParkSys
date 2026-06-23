@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+// P05: Arquitetura MVC respeitada. UI nao acessa Collections diretamente.
 public class GerenciadorEstacionamento {
 
     private static GerenciadorEstacionamento instancia;
