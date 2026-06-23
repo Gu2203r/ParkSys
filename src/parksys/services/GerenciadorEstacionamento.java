@@ -22,6 +22,8 @@ public class GerenciadorEstacionamento {
         inicializarVagas();
     }
 
+
+    // P01: Implementacao do padrao Singleton com construtor private e getInstance()
     public static synchronized GerenciadorEstacionamento getInstance() {
         if (instancia == null) {
             instancia = new GerenciadorEstacionamento();
