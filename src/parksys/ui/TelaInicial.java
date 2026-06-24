@@ -1,6 +1,7 @@
 package parksys.ui;
 
 import parksys.observer.PainelMonitor;
+import parksys.services.GerenciadorArquivo;
 import parksys.services.GerenciadorEstacionamento;
 
 import javax.swing.*;
@@ -10,13 +11,15 @@ import java.awt.event.WindowEvent;
 
 public class TelaInicial extends JFrame {
 
+    private static final String ARQUIVO_DADOS = "parksys.ser";
+
     private PainelMonitor painelMonitor;
     private JButton btnEntrada, btnSaida, btnMensalista, btnRelatorio;
 
     public TelaInicial() {
         setTitle("ParkSys - Sistema de Gestão de Estacionamento");
         setSize(380, 250);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // controlado manualmente no windowClosing
         setLocationRelativeTo(null);
 
         JPanel painelFundo = new JPanel(new BorderLayout()) {
@@ -29,7 +32,6 @@ public class TelaInicial extends JFrame {
         };
         setContentPane(painelFundo);
 
-        //Requisito P06: Inicialização e Registro do Observador
         painelMonitor = new PainelMonitor();
         GerenciadorEstacionamento.getInstance().addObserver(painelMonitor);
 
@@ -59,11 +61,22 @@ public class TelaInicial extends JFrame {
         btnMensalista.addActionListener(e -> new TelaCadastroMensalista(TelaInicial.this).setVisible(true));
         btnRelatorio.addActionListener(e -> new TelaRelatorio(TelaInicial.this).setVisible(true));
 
-        //Requisito P06: Remover o observador ao fechar a janela
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                GerenciadorEstacionamento.getInstance().removeObserver(painelMonitor);
+                GerenciadorEstacionamento ger = GerenciadorEstacionamento.getInstance();
+
+                // P06: Remove o observador antes de encerrar
+                ger.removeObserver(painelMonitor);
+
+                GerenciadorArquivo.serializar(
+                        ger.getVagas(),
+                        ger.getRegistros(),
+                        ger.getMensalistas(),
+                        ARQUIVO_DADOS);
+
+                dispose();
+                System.exit(0);
             }
         });
     }
