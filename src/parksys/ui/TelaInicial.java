@@ -32,9 +32,6 @@ public class TelaInicial extends JFrame {
         };
         setContentPane(painelFundo);
 
-        // P06: Inicialização e Registro do Observador
-        // Nota: a desserialização inicial já ocorreu em Principal.java —
-        // o Gerenciador (Singleton) chega aqui com os dados já carregados.
         painelMonitor = new PainelMonitor();
         GerenciadorEstacionamento.getInstance().addObserver(painelMonitor);
 
@@ -72,11 +69,6 @@ public class TelaInicial extends JFrame {
                 // P06: Remove o observador antes de encerrar
                 ger.removeObserver(painelMonitor);
 
-                /*
-                 * S06 — serializa automaticamente ao fechar a janela principal.
-                 * Este é o ponto final de persistência: tudo que o usuário fez
-                 * nas telas de entrada, saída, mensalista, etc. é salvo aqui.
-                 */
                 GerenciadorArquivo.serializar(
                         ger.getVagas(),
                         ger.getRegistros(),
