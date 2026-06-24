@@ -150,15 +150,15 @@ A TelaInicial usa WindowAdapter para garantir que o PainelMonitor seja removido 
 
 Tabela de Tarifas
 
-Tipo de Veículo     Tarifa/hora     Vagas ocupadas      
+Tipo de Veículo           Tarifa/hora             Vagas ocupadas      
 
-Motocicleta         R$ 5,00             1
+Motocicleta                 R$ 5,00                     1
 
-Automóvel           R$ 10,00            1
+Automóvel                   R$ 10,00                    1
 
-Caminhonete         R$ 18,00            2
+Caminhonete                 R$ 18,00                    2
 
-Caminhão            R$ 30,00            3
+Caminhão                    R$ 30,00                    3
 
 O tempo mínimo cobrado é de 1 hora. O cálculo é feito automaticamente na saída com base no tipo do veículo (TipoVeiculo.getTarifaHora()).
 
