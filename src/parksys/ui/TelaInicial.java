@@ -26,7 +26,7 @@ public class TelaInicial extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image imagemFundo = new ImageIcon("estacionamento.jpg").getImage();
+                Image imagemFundo = new ImageIcon("estacionamento.jpeg").getImage();
                 g.drawImage(imagemFundo, 0, 0, getWidth(), getHeight(), this);
             }
         };
